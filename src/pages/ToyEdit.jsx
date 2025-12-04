@@ -10,7 +10,7 @@ import { useConfirmTabClose } from "../hooks/useConfirmTabClose.js"
 
 export function ToyEdit() {
     const navigate = useNavigate()
-    const [cartoEdit, setCartoEdit] = useState(toyService.getEmptyToy())
+    const [toyToEdit, setToyToEdit] = useState(toyService.getEmptyToy())
     const { toyId } = useParams()
 
     const isOnline = useOnlineStatus()
@@ -22,7 +22,7 @@ export function ToyEdit() {
 
     function loadToy() {
         toyService.getById(toyId)
-            .then(toy => setCartoEdit(toy))
+            .then(toy => setToyToEdit(toy))
             .catch(err => {
                 console.log('Had issues in toy edit', err)
                 navigate('/toy')
@@ -32,14 +32,14 @@ export function ToyEdit() {
     function handleChange({ target }) {
         let { value, type, name: field } = target
         value = type === 'number' ? +value : value
-        setCartoEdit((prevToy) => ({ ...prevToy, [field]: value }))
+        setToyToEdit((prevToy) => ({ ...prevToy, [field]: value }))
         setHasUnsavedChanges(true)
     }
 
     function onSaveToy(ev) {
         ev.preventDefault()
-        if (!cartoEdit.price) cartoEdit.price = 1000
-        saveToy(cartoEdit)
+        if (!toyToEdit.price) toyToEdit.price = 1000
+        saveToy(toyToEdit)
             .then(() => {
                 showSuccessMsg('Toy Saved!')
                 navigate('/toy')
@@ -54,15 +54,15 @@ export function ToyEdit() {
         <>
             <div></div>
             <section className="toy-edit">
-                <h2>{cartoEdit._id ? 'Edit' : 'Add'} Toy</h2>
+                <h2>{toyToEdit._id ? 'Edit' : 'Add'} Toy</h2>
 
                 <form onSubmit={onSaveToy} >
-                    <label htmlFor="vendor">Vendor : </label>
+                    <label htmlFor="name">Name : </label>
                     <input type="text"
-                        name="vendor"
-                        id="vendor"
-                        placeholder="Enter vendor..."
-                        value={cartoEdit.vendor}
+                        name="name"
+                        id="name"
+                        placeholder="Enter name..."
+                        value={toyToEdit.name}
                         onChange={handleChange}
                     />
                     <label htmlFor="price">Price : </label>
@@ -70,12 +70,12 @@ export function ToyEdit() {
                         name="price"
                         id="price"
                         placeholder="Enter price"
-                        value={cartoEdit.price}
+                        value={toyToEdit.price}
                         onChange={handleChange}
                     />
 
                     <div>
-                        <button>{cartoEdit._id ? 'Save' : 'Add'}</button>
+                        <button>{toyToEdit._id ? 'Save' : 'Add'}</button>
                         <Link to="/toy">Cancel</Link>
                     </div>
                     <section>

@@ -8,18 +8,19 @@ export const UPDATE_TOY = 'UPDATE_TOY'
 export const TOY_UNDO = 'TOY_UNDO'
 
 //* Shopping cart
-export const TOGGLE_CART_IS_SHOWN = 'TOGGLE_CART_IS_SHOWN'
-export const ADD_TOY_TO_CART = 'ADD_TOY_TO_CART'
-export const REMOVE_TOY_FROM_CART = 'REMOVE_TOY_FROM_CART'
-export const CLEAR_CART = 'CLEAR_CART'
+// export const TOGGLE_CART_IS_SHOWN = 'TOGGLE_CART_IS_SHOWN'
+// export const ADD_TOY_TO_CART = 'ADD_TOY_TO_CART'
+// export const REMOVE_TOY_FROM_CART = 'REMOVE_TOY_FROM_CART'
+// export const CLEAR_CART = 'CLEAR_CART'
 
 export const SET_FILTER_BY = 'SET_FILTER_BY'
+export const SET_SORT_BY = 'SET_SORT_BY'
 export const SET_IS_LOADING = 'SET_IS_LOADING'
 
 const initialState = {
     toys: [],
-    isCartShown: false,
-    shoppingCart: [],
+    // isCartShown: false,
+    // shoppingCart: [],
     isLoading: false,
     filterBy: toyService.getDefaultFilter(),
     lastToys: []
@@ -50,27 +51,31 @@ export function toyReducer(state = initialState, action = {}) {
             }
 
         //* Shopping cart
-        case TOGGLE_CART_IS_SHOWN:
-            return { ...state, isCartShown: !state.isCartShown }
+        // case TOGGLE_CART_IS_SHOWN:
+        //     return { ...state, isCartShown: !state.isCartShown }
 
-        case ADD_TOY_TO_CART:
-            return {
-                ...state,
-                shoppingCart: [...state.shoppingCart, action.toy]
-            }
+        // case ADD_TOY_TO_CART:
+        //     return {
+        //         ...state,
+        //         shoppingCart: [...state.shoppingCart, action.toy]
+        //     }
 
-        case REMOVE_TOY_FROM_CART:
-            const shoppingCart = state.shoppingCart.filter(toy => toy._id !== action.toyId)
-            return { ...state, shoppingCart }
+        // case REMOVE_TOY_FROM_CART:
+        //     const shoppingCart = state.shoppingCart.filter(toy => toy._id !== action.toyId)
+        //     return { ...state, shoppingCart }
 
 
-        case CLEAR_CART:
-            return { ...state, shoppingCart: [] }
+        // case CLEAR_CART:
+        //     return { ...state, shoppingCart: [] }
 
         case SET_FILTER_BY:
             return {
                 ...state,
                 filterBy: { ...state.filterBy, ...action.filterBy }
+            }
+
+        case SET_SORT_BY:
+            return { ...state, sortBy: { ...action.sortBy } 
             }
 
         case SET_IS_LOADING:
