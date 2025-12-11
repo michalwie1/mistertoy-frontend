@@ -8,9 +8,11 @@ import { ToyList } from '../cmps/ToyList.jsx'
 import { toyService } from '../services/toy.service.js'
 import { showSuccessMsg, showErrorMsg } from '../services/event-bus.service.js'
 import { loadToys, removeToy, removeToyOptimistic, saveToy, setFilterBy, setSort } from '../store/actions/toy.actions.js'
+import { PopUp } from '../cmps/PopUp.jsx'
 // import { ADD_TOY_TO_CART } from '../store/reducers/toy.reducer.js'
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+
 
 export function ToyIndex() {
 
@@ -116,6 +118,13 @@ export function ToyIndex() {
                     : <div>Loading...</div>
                 }
                 <hr />
+
+                <PopUp footer={<footer>An Image</footer>} isOpen={pageIdx === 1}>
+                    {/* <img src='./img/HERO_IMG.jpg' /> */}
+                    <button>Send</button>
+                </PopUp>
+                
+
             </main>
         </div>
     )
