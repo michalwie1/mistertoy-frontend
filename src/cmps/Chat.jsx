@@ -13,7 +13,6 @@ export function Chat() {
                 behavior: "smooth",
             });
         }
-        console.log('hi')
     }, [msgs])
 
     function addMsg(text, from) {
