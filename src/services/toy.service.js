@@ -36,9 +36,11 @@ export const toyService = {
 }
 
 
-function query(filterBy = {}, sortBy = {}, pageIdx = 0) {
+async function query(filterBy = {}, sortBy = {}, pageIdx = 0) {
     // return Promise.reject('Cannot get toys!')
-    return storageService.query(TOY_DB).then(toys => {
+    const toys = await storageService.query(TOY_DB)
+
+    // return storageService.query(TOY_DB).then(toys => {
         let toysToShow = toys
         // Filter by text
         if (filterBy.txt) {
@@ -80,7 +82,7 @@ function query(filterBy = {}, sortBy = {}, pageIdx = 0) {
 
 
         return toysToShow
-    })
+    // })
 }
 
 

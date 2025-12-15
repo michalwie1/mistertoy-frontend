@@ -53,14 +53,19 @@ export function ToyIndex() {
         setSort(sortBy)
     }
 
-    function onRemoveToy(toyId) {
-        removeToyOptimistic(toyId)
-            .then(() => {
-                showSuccessMsg('Toy removed')
-            })
-            .catch(err => {
-                showErrorMsg('Cannot remove toy')
-            })
+    async function onRemoveToy(toyId) {
+        await removeToyOptimistic(toyId)
+        try {
+            showSuccessMsg('Toy removed')
+        } catch {
+            showErrorMsg('Cannot remove toy')
+        }
+        //     .then(() => {
+        //         showSuccessMsg('Toy removed')
+        //     })
+        //     .catch(err => {
+        //         showErrorMsg('Cannot remove toy')
+        //     })
     }
 
     function onAddToy() {

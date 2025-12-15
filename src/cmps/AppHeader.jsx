@@ -15,14 +15,19 @@ export function AppHeader() {
     const user = useSelector(storeState => storeState.userModule.loggedInUser)
     // console.log('user:', user)
    
-    function onLogout() {
-        logout()
-            .then(() => {
-                showSuccessMsg('logout successfully')
-            })
-            .catch((err) => {
-                showErrorMsg('OOPs try again')
-            })
+    async function onLogout() {
+        await logout()
+        try {
+            showSuccessMsg('logout successfully')
+        } catch (err) {
+            showErrorMsg('OOPs try again')
+        }
+            // .then(() => {
+            //     showSuccessMsg('logout successfully')
+            // })
+            // .catch((err) => {
+            //     showErrorMsg('OOPs try again')
+            // })
     }
 
 

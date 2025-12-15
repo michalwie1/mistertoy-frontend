@@ -15,9 +15,11 @@ export const toyService = {
     getDefaultFilter
 }
 
-function query(filterBy = {}) {
-    return storageService.query(STORAGE_KEY)
-        .then(toys => {
+async function query(filterBy = {}) {
+    const toys = await storageService.query(STORAGE_KEY)
+    
+    // return storageService.query(STORAGE_KEY)
+        // .then(toys => {
             if (!filterBy.txt) filterBy.txt = ''
             if (!filterBy.maxPrice) filterBy.maxPrice = Infinity
             // if (!filterBy.minSpeed) filterBy.minSpeed = -Infinity
@@ -27,7 +29,7 @@ function query(filterBy = {}) {
                 toy.price <= filterBy.maxPrice  
                 // && toy.speed >= filterBy.minSpeed
             )
-        })
+        // })
 }
 
 function getById(toyId) {

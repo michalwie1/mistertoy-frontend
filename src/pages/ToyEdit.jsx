@@ -20,13 +20,19 @@ export function ToyEdit() {
         if (toyId) loadToy()
     }, [])
 
-    function loadToy() {
-        toyService.getById(toyId)
-            .then(toy => setToyToEdit(toy))
-            .catch(err => {
-                console.log('Had issues in toy edit', err)
+    async function loadToy() {
+        const toy = await toyService.getById(toyId)
+        try {
+            setToyToEdit(toy)
+        } catch (err) {
+            console.log('Had issues in toy edit', err)
                 navigate('/toy')
-            })
+        }
+            // .then(toy => setToyToEdit(toy))
+            // .catch(err => {
+            //     console.log('Had issues in toy edit', err)
+            //     navigate('/toy')
+            // })
     }
 
     function handleChange({ target }) {
