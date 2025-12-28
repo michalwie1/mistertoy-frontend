@@ -74,25 +74,25 @@ export function ToyDetails() {
     <section className="toy-details" style={{ textAlign: 'center' }}>
       <div className="upper-section flex flex-column align-center">
         <ToyImg toyName={toy.name} />
-        <h1>
+        <h2>
           Toy name: <span>{toy.name}</span>
-        </h1>
-        <h1>
+        </h2>
+        <h2>
           Toy price: <span>${toy.price}</span>
-        </h1>
-        <h1>
+        </h2>
+        <h2>
           Labels: <span>{toy.labels.join(' ,')}</span>
-        </h1>
-        <h1 className={toy.inStock ? 'green' : 'red'}>
+        </h2>
+        <h2 className={toy.inStock ? 'green' : 'red'}>
           {toy.inStock ? 'In stock' : 'Not in stock'}
-        </h1>
+        </h2>
         <button>
           <Link to="/toy">Back</Link>
         </button>
       </div>
       {user && (
         <div className="msg-container">
-          <h1>Chat</h1>
+          <h2>Chat</h2>
           <form className="login-form" onSubmit={onSaveMsg}>
             <input
               type="text"
