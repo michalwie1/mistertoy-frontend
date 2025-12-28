@@ -13,17 +13,25 @@ export function LoginSignup() {
         isSignup ? _signup(credentials) : _login(credentials)
     }
 
-    function _login(credentials) {
+  function _login(credentials) {
+        try {
         login(credentials)
-            .then(() => { showSuccessMsg('Logged in successfully') })
-            .catch((err) => { showErrorMsg('Oops try again') })
+        showSuccessMsg('Logged in successfully')
+        } catch (error) {
+        showErrorMsg('Oops try again')
+        }
     }
 
-    function _signup(credentials) {
+
+  function _signup(credentials) {
+        try {
         signup(credentials)
-            .then(() => { showSuccessMsg('Signed in successfully') })
-            .catch((err) => { showErrorMsg('Oops try again') })
+        showSuccessMsg('Logged in successfully')
+        } catch (error) {
+        showErrorMsg('Oops try again')
+        }
     }
+
 
     return (
         <div className="login-page">

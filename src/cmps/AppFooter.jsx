@@ -18,7 +18,7 @@ export function AppFooter() {
                 Currently {toysLength} toys in the shop
             </h5>
             <p>
-                Coffeerights to all - Count: {count}
+                Coffeerights to all
             </p>
             <h5>
                 {/* <span>{shoppingCartLength}</span> Products in your Cart */}

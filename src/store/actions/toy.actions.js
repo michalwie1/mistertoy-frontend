@@ -68,27 +68,16 @@ export async function removeToyOptimistic(toyId) {
 }
 
 export async function saveToy(toy) {
-    const type = toy._id ? UPDATE_TOY : ADD_TOY
-    const savedToy = await toyService.save(toy)
-
+    console.log(toy)
     try {
-        console.log('savedToy:', savedToy)
-        store.dispatch({ type, toy: savedToy })
-        return savedToy
-    } catch (err) {
-        console.log('toy action -> Cannot save toy', err)
-        throw err
+        const type = toy._id ? UPDATE_TOY : ADD_TOY
+        const toyToSave = await toyService.save(toy)
+        store.dispatch({ type, toy: toyToSave })
+        return toyToSave
+    } catch (error) {
+        console.log('toy action -> Cannot save toy', error)
+        throw error
     }
-    // return toyService.save(toy)
-    //     .then(savedToy => {
-    //         console.log('savedToy:', savedToy)
-    //         store.dispatch({ type, toy: savedToy })
-    //         return savedToy
-    //     })
-    //     .catch(err => {
-    //         console.log('toy action -> Cannot save toy', err)
-    //         throw err
-    //     })
 }
 
 export function setFilterBy(filterBy) {

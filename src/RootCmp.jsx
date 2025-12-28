@@ -13,6 +13,7 @@ import { ToyDetails } from './pages/ToyDetails.jsx'
 import { UserDetails } from './pages/UserDetails.jsx'
 import { Provider } from 'react-redux'
 import { Dashboard } from './pages/Dashboard.jsx'
+import { Login } from './pages/Login.jsx'
 
 
 function App() {
@@ -27,6 +28,7 @@ function App() {
                             <Route element={<HomePage />} path="/" />
                             <Route element={<AboutUs />} path="/about" />
                             <Route element={<Dashboard />} path="/dashboard" />
+                            <Route element={<Login />} path="/Login" />
                             <Route element={<ToyIndex />} path="/toy" />
                             <Route element={<ToyEdit />} path="/toy/edit" />
                             <Route element={<ToyEdit />} path="/toy/edit/:toyId" />

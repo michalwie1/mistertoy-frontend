@@ -9,7 +9,6 @@ export const userService = {
     signup,
     getById,
     getLoggedinUser,
-    updateScore,
     getEmptyCredentials
 }
 
@@ -29,25 +28,11 @@ function login({ username, password }) {
 }
 
 function signup({ username, password, fullname }) {
-    const user = { username, password, fullname, score: 10000 }
+    const user = { username, password, fullname, isAdmin: false }
     return storageService.post(STORAGE_KEY, user)
         .then(_setLoggedinUser)
 }
 
-
-function updateScore(diff) {
-    const loggedInUserId = getLoggedinUser()._id
-    return userService.getById(loggedInUserId)
-        .then(user => {
-            if (user.score + diff < 0) return Promise.reject('No credit')
-            user.score += diff
-            return storageService.put(STORAGE_KEY, user)
-        })
-        .then(user => {
-            _setLoggedinUser(user)
-            return user.score
-        })
-}
 
 function logout() {
     sessionStorage.removeItem(STORAGE_KEY_LOGGEDIN)
@@ -59,7 +44,7 @@ function getLoggedinUser() {
 }
 
 function _setLoggedinUser(user) {
-    const userToSave = { _id: user._id, fullname: user.fullname, score: user.score }
+    const userToSave = { _id: user._id, fullname: user.fullname, isAdmin: user.isAdmin }
     sessionStorage.setItem(STORAGE_KEY_LOGGEDIN, JSON.stringify(userToSave))
     return userToSave
 }

@@ -7,7 +7,7 @@ import { Link, useNavigate, useParams } from "react-router-dom"
 
 
 export function UserDetails() {
-    const [user, setUser] = useState(null)
+    const user = useSelector(storeState => storeState.userModule.loggedInUser)
     const { userId } = useParams()
     const navigate = useNavigate()
 
@@ -35,7 +35,6 @@ export function UserDetails() {
     return (
         <section className="user-details">
             <h1>Fullname: {user.fullname}</h1>
-            <h5>Score: {user.score}</h5>
             {isMyProfile && (
                 <section>
                     <h2>My Stuff!</h2>

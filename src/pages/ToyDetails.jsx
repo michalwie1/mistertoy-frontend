@@ -1,92 +1,125 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
 import { Link, useNavigate, useParams } from 'react-router-dom'
-import { toyService } from "../services/toy.service.js"
-import { PopUp } from '../cmps/PopUp.jsx'
-import { Chat } from '../cmps/Chat.jsx'
 
-// const { useEffect, useState } = React
-// const { Link, useParams } = ReactRouterDOM
+import { Loader } from '../cmps/Loader'
+import { ToyImg } from '../cmps/ToyImg'
 
+import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service'
+import { toyService } from '../services/toy.service'
 
 export function ToyDetails() {
-    const [toy, setToy] = useState(null)
-    const [isChatOpen, setIsChatOpen] = useState(false)
-    const { toyId } = useParams()
-    const navigate = useNavigate()
+  const user = useSelector(storeState => storeState.userModule.loggedInUser)
 
-    useEffect(() => {
-        if (toyId) loadToy()
-    }, [toyId])
+  const [toy, setToy] = useState(null)
+  const [msg, setMsg] = useState({ txt: '' })
 
-    async function loadToy() {
-        const toy = await toyService.getById(toyId)
-        try {
-            setToy(toy)
-        } catch (err){
-            console.log('Had issues in toy details', err)
-                navigate('/toy')
-        }
-            // .then(toy => setToy(toy))
-            // .catch(err => {
-            //     console.log('Had issues in toy details', err)
-            //     navigate('/toy')
-            // })
+  const { toyId } = useParams()
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    loadToy()
+  }, [toyId])
+
+  function handleMsgChange(ev) {
+    const field = ev.target.name
+    const value = ev.target.value
+    setMsg(msg => ({ ...msg, [field]: value }))
+  }
+
+  async function loadToy() {
+    try {
+      const toy = await toyService.getById(toyId)
+      setToy(toy)
+    } catch (error) {
+      console.log('Had issues in toy details', error)
+      showErrorMsg('Cannot load toy')
+      navigate('/toy')
     }
-    if (!toy) return <div>Loading...</div>
-    return (
-        <section className="toy-details">
-            <h1>Toy name : {toy.name}</h1>
-            <h5>Price: ${toy.price}</h5>
-            <p>⛐</p>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Animi voluptas cumque tempore, aperiam sed dolorum rem! Nemo quidem, placeat perferendis tempora aspernatur sit, explicabo veritatis corrupti perspiciatis repellat, enim quibusdam!</p>
-            <Link to={`/toy/edit/${toy._id}`}>Edit</Link> &nbsp;
-            <Link to={`/toy`}>Back</Link>
-              <section>
-                <PopUp
-                    header={<h3>Chat About {toy.name}s</h3>}
-                    footer={<h4>&copy; 2025-9999 Toys INC.</h4>}
-                    onClose={() => setIsChatOpen(false)}
-                    isOpen={isChatOpen}
-                >
-                    <Chat />
-                </PopUp>
-            </section >
-                        {!isChatOpen && <button onClick={() => setIsChatOpen(true)} className='open-chat'>Chat</button>}
+  }
 
-            <p>
-                <Link to="/toy/nJ5L4">Next Toy</Link>
-            </p>
+  async function onSaveMsg(ev) {
+    ev.preventDefault()
+    try {
+      const savedMsg = await toyService.addMsg(toy._id, msg)
+      setToy(prevToy => ({
+        ...prevToy,
+        msgs: [...(prevToy.msgs || []), savedMsg],
+      }))
+      setMsg({ txt: '' })
+      showSuccessMsg('Message saved!')
+    } catch (error) {
+      showErrorMsg('Cannot save message')
+    }
+  }
 
-        </section>
-    )
+  async function onRemoveMsg(msgId) {
+    try {
+      await toyService.removeMsg(toy._id, msgId)
+      setToy(prevToy => ({
+        ...prevToy,
+        msgs: prevToy.msgs.filter(msg => msg.id !== msgId),
+      }))
+      showSuccessMsg('Message removed!')
+    } catch (error) {
+      showErrorMsg('Cannot remove message')
+    }
+  }
+
+  const { txt } = msg
+
+  if (!toy) return <Loader />
+
+  return (
+    <section className="toy-details" style={{ textAlign: 'center' }}>
+      <div className="upper-section flex flex-column align-center">
+        <ToyImg toyName={toy.name} />
+        <h1>
+          Toy name: <span>{toy.name}</span>
+        </h1>
+        <h1>
+          Toy price: <span>${toy.price}</span>
+        </h1>
+        <h1>
+          Labels: <span>{toy.labels.join(' ,')}</span>
+        </h1>
+        <h1 className={toy.inStock ? 'green' : 'red'}>
+          {toy.inStock ? 'In stock' : 'Not in stock'}
+        </h1>
+        <button>
+          <Link to="/toy">Back</Link>
+        </button>
+      </div>
+      {user && (
+        <div className="msg-container">
+          <h1>Chat</h1>
+          <form className="login-form" onSubmit={onSaveMsg}>
+            <input
+              type="text"
+              name="txt"
+              value={txt}
+              placeholder="Enter Your Message"
+              onChange={handleMsgChange}
+              required
+              autoFocus
+            />
+            <button>Send</button>
+          </form>
+          <div>
+            <ul className="clean-list">
+              {toy.msgs &&
+                toy.msgs.map(msg => (
+                  <li key={msg.id}>
+                    By: {msg.by ? msg.by.fullname : 'Unknown User'} - {msg.txt}
+                    <button type="button" onClick={() => onRemoveMsg(msg.id)}>
+                      ✖️
+                    </button>
+                  </li>
+                ))}
+            </ul>
+          </div>
+        </div>
+      )}
+    </section>
+  )
 }
-
-
-
-/*
-
-<PopUp header={<header></header>} footer={<footer ></footer>}>
-    <Chat />
-</PopUp>
-
-
-function PopUp({ children, header, footer, isOpen }) {
-
-
-    return (
-        <section>
-            <header>{header}</header>
-            <main>
-                {children}
-            </main>
-            <footer>{footer}</footer>
-        </section>
-    )
-}
-
-function Chat() {
-
-
-}
-*/
-

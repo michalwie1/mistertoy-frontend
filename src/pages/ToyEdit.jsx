@@ -21,18 +21,14 @@ export function ToyEdit() {
     }, [])
 
     async function loadToy() {
-        const toy = await toyService.getById(toyId)
         try {
+            const toy = await toyService.getById(toyId)
             setToyToEdit(toy)
-        } catch (err) {
-            console.log('Had issues in toy edit', err)
-                navigate('/toy')
+        } catch (error) {
+            console.log('Had issued in toy edit:', error)
+            navigate('/toy')
+            showErrorMsg('Toy not found!')
         }
-            // .then(toy => setToyToEdit(toy))
-            // .catch(err => {
-            //     console.log('Had issues in toy edit', err)
-            //     navigate('/toy')
-            // })
     }
 
     function handleChange({ target }) {
@@ -42,19 +38,30 @@ export function ToyEdit() {
         setHasUnsavedChanges(true)
     }
 
-    function onSaveToy(ev) {
+    async function onSaveToy(ev) {
         ev.preventDefault()
-        if (!toyToEdit.price) toyToEdit.price = 1000
-        saveToy(toyToEdit)
-            .then(() => {
-                showSuccessMsg('Toy Saved!')
-                navigate('/toy')
-            })
-            .catch(err => {
-                console.log('Had issues in toy details', err)
-                showErrorMsg('Had issues in toy details')
-            })
+        console.log(toyToEdit)
+        // if (!toyToEdit.price) toyToEdit.price = 1000
+        try {
+            await saveToy(toyToEdit)
+            showSuccessMsg('Toy Saved!')
+            navigate('/toy')
+        } catch (error) {
+            showErrorMsg('Cannot save toy')
+        }
     }
+
+//     async function onSaveToy(values, { setSubmitting }) {
+//         try {
+//             await saveToy(values)
+//             showSuccessMsg('Toy saved successfully')
+//             navigate('/toy')
+//         } catch (error) {
+//             showErrorMsg('Cannot save toy')
+//         } finally {
+//             setSubmitting(false)
+//         }
+//   }
 
     return (
         <>

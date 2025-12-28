@@ -46,13 +46,14 @@ export function AppHeader() {
                     <NavLink to="/about" >About</NavLink>
                     <NavLink to="/toy" >Toys</NavLink>
                     <NavLink to="/dashboard" >Dashboard</NavLink>
+                    <NavLink to="/login" >Login</NavLink>
                     {/* <a onClick={onToggleCart} href="#">🛒 Cart</a> */}
 
                 </nav>
             </section>
             {user ? (
                 < section >
-                    <span to={`/user/${user._id}`}>Hello {user.fullname} <span>${user.score.toLocaleString()}</span></span>
+                    <span to={`/user/${user._id}`}>Hello {user.fullname}</span>
                     <button onClick={onLogout}>Logout</button>
                 </ section >
             ) : (
