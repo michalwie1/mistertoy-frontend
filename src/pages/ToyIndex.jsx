@@ -112,7 +112,7 @@ export function ToyIndex() {
     console.log('user:', user)
     return (
         <div>
-            <h3>Toys App</h3>
+            <h2>Toys App</h2>
             <main>
                 {/* <Link to="/toy/edit">Add Toy</Link> */}
                 {user && user.isAdmin && 
