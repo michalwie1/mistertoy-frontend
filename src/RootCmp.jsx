@@ -10,6 +10,7 @@ import { ToyIndex } from './pages/ToyIndex.jsx'
 import { store } from './store/store.js'
 import { ToyEdit } from './pages/ToyEdit.jsx'
 import { ToyDetails } from './pages/ToyDetails.jsx'
+import { ToyReviews } from './pages/ToyReviews.jsx'
 import { UserDetails } from './pages/UserDetails.jsx'
 import { Provider } from 'react-redux'
 import { Dashboard } from './pages/Dashboard.jsx'
@@ -33,6 +34,7 @@ function App() {
                             <Route element={<ToyEdit />} path="/toy/edit" />
                             <Route element={<ToyEdit />} path="/toy/edit/:toyId" />
                             <Route element={<ToyDetails />} path="/toy/:toyId" />
+                            <Route element={<ToyReviews />} path="/review" />
                             <Route element={<UserDetails />} path="/user/:userId" />
                         </Routes>
                     </main>
