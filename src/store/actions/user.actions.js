@@ -1,5 +1,6 @@
 import { userService } from "../../services/user.service.js"
 // import { CLEAR_CART } from "../reducers/toy.reducer.js"
+import { SET_IS_LOADING } from '../reducers/toy.reducer.js'
 import { SET_USER } from "../reducers/user.reducer.js"
 import { store } from "../store.js"
 
@@ -34,4 +35,17 @@ export async function logout(credentials) {
         throw error
     }
     }
+
+    export async function loadUsers() {
+    try {
+        store.dispatch({ type: SET_IS_LOADING, isLoading: true })
+        const users = await userService.getUsers()
+        store.dispatch({ type: SET_USERS, users })
+    } catch (err) {
+        console.log('UserActions: err in loadUsers', err)
+    } finally {
+        store.dispatch({ type: SET_IS_LOADING, isLoading: false })
+    }
+    }
+
 

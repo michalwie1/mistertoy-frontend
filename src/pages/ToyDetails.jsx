@@ -6,7 +6,7 @@ import { Loader } from '../cmps/Loader'
 import { ToyImg } from '../cmps/ToyImg'
 
 import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service'
-import { toyService } from '../services/toy.service'
+import { toyService } from '../services/toy.service.js'
 
 export function ToyDetails() {
   const user = useSelector(storeState => storeState.userModule.loggedInUser)

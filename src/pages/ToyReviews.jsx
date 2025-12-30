@@ -1,78 +1,65 @@
-import { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
-import { Link, useNavigate, useParams } from 'react-router-dom'
+import { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 
-import { Loader } from '../cmps/Loader'
-import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service'
-import { toyService } from '../services/toy.service'
+import { loadReviews, removeReview, getActionAddReview, getActionRemoveReview } from '../store/actions/review.actions.js'
+import { loadUsers } from '../store/actions/user.actions.js'
+
+
+import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service.js'
+import { socketService, SOCKET_EVENT_REVIEW_ADDED, SOCKET_EVENT_REVIEW_REMOVED } from '../services/socket.service.js'
+import { ReviewList } from '../cmps/ReviewList.jsx'
+// import { ReviewEdit } from '../cmps/ReviewEdit'
+
 
 export function ToyReviews() {
-  const user = useSelector(storeState => storeState.userModule.loggedInUser)
+	const loggedInUser = useSelector(storeState => storeState.userModule.user)
+	const reviews = useSelector(storeState => storeState.reviewModule.reviews)
 
-  const [review, setReview] = useState(null)
-  // const [msg, setMsg] = useState({ txt: '' })
 
-  // const { toyId } = useParams()
-  const navigate = useNavigate()
+	const dispatch = useDispatch()
 
-  // useEffect(() => {
-  //   loadToy()
-  // }, [toyId])
 
-  // function handleMsgChange(ev) {
-  //   const field = ev.target.name
-  //   const value = ev.target.value
-  //   setMsg(msg => ({ ...msg, [field]: value }))
-  // }
+	useEffect(() => {
+		loadReviews()
+		loadUsers()
 
-  // async function loadToy() {
-  //   try {
-  //     const toy = await toyService.getById(toyId)
-  //     setToy(toy)
-  //   } catch (error) {
-  //     console.log('Had issues in toy details', error)
-  //     showErrorMsg('Cannot load toy')
-  //     navigate('/toy')
-  //   }
-  // }
 
-  // async function onSaveMsg(ev) {
-  //   ev.preventDefault()
-  //   try {
-  //     const savedMsg = await toyService.addMsg(toy._id, msg)
-  //     setToy(prevToy => ({
-  //       ...prevToy,
-  //       msgs: [...(prevToy.msgs || []), savedMsg],
-  //     }))
-  //     setMsg({ txt: '' })
-  //     showSuccessMsg('Message saved!')
-  //   } catch (error) {
-  //     showErrorMsg('Cannot save message')
-  //   }
-  // }
+		socketService.on(SOCKET_EVENT_REVIEW_ADDED, review => {
+			console.log('GOT from socket', review)
+			dispatch(getActionAddReview(review))
+		})
 
-  // async function onRemoveMsg(msgId) {
-  //   try {
-  //     await toyService.removeMsg(toy._id, msgId)
-  //     setToy(prevToy => ({
-  //       ...prevToy,
-  //       msgs: prevToy.msgs.filter(msg => msg.id !== msgId),
-  //     }))
-  //     showSuccessMsg('Message removed!')
-  //   } catch (error) {
-  //     showErrorMsg('Cannot remove message')
-  //   }
-  // }
 
-  // const { txt } = msg
+		socketService.on(SOCKET_EVENT_REVIEW_REMOVED, reviewId => {
+			console.log('GOT from socket', reviewId)
+			dispatch(getActionRemoveReview(reviewId))
+		})
 
-  if (!review) return <Loader />
 
-  return (
-    <section className="toy-review">
-      <div className="upper-section flex flex-column align-center">
-          <h2>Reviews</h2>
-        </div>
-    </section>
-  )
+		return () => {
+            socketService.off(SOCKET_EVENT_REVIEW_ADDED)
+            socketService.off(SOCKET_EVENT_REVIEW_REMOVED)
+        }
+	}, [])
+
+
+	async function onRemoveReview(reviewId) {
+		try {
+			await removeReview(reviewId)
+			showSuccessMsg('Review removed')
+		} catch (err) {
+			showErrorMsg('Cannot remove')
+		}
+	}
+
+
+	return <div className="review-index">
+        <h2>Reviews and Gossip</h2>
+        {/* {loggedInUser && 
+        <ReviewEdit/>
+        } */}
+        <ReviewList 
+            reviews={reviews} 
+            onRemoveReview={onRemoveReview}/>
+    </div>
 }
