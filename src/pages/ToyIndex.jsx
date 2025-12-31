@@ -6,7 +6,6 @@ import { toyService } from '../services/toy.service.js'
 import { showSuccessMsg, showErrorMsg } from '../services/event-bus.service.js'
 import { loadToys, removeToy, removeToyOptimistic, saveToy, setFilterBy, setSort } from '../store/actions/toy.actions.js'
 import { PopUp } from '../cmps/PopUp.jsx'
-// import { ADD_TOY_TO_CART } from '../store/reducers/toy.reducer.js'
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 
@@ -102,11 +101,6 @@ export function ToyIndex() {
     //         })
     // }
 
-    // function addToCart(toy) {
-    //     console.log(`Adding ${toy.name} to Cart`)
-    //     // dispatch({ type: ADD_TOY_TO_CART, toy })
-    //     showSuccessMsg('Added to Cart')
-    // }
 
     console.log('toys:', toys)
     console.log('user:', user)
@@ -133,7 +127,6 @@ export function ToyIndex() {
                         toys={toys}
                         onRemoveToy={onRemoveToy}
                         loggedInUser={user}
-                        // addToCart={addToCart}
                     />
                     : <div>Loading...</div>
                 }

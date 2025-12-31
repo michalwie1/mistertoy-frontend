@@ -1,5 +1,4 @@
 import { userService } from "../../services/user.service.js"
-// import { CLEAR_CART } from "../reducers/toy.reducer.js"
 import { SET_IS_LOADING } from '../reducers/toy.reducer.js'
 import { SET_USER } from "../reducers/user.reducer.js"
 import { store } from "../store.js"
