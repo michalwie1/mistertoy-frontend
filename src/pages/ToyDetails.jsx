@@ -108,7 +108,7 @@ export function ToyDetails() {
   if (!toy) return <Loader />
 
 
-  console.log(reviews)
+  // console.log(reviews)
   return (
     <section className="toy-details" style={{ textAlign: 'center' }}>
       <div className="upper-section flex flex-column align-center">
