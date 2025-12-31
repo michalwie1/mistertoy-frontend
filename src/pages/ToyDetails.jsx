@@ -4,21 +4,27 @@ import { Link, useNavigate, useParams } from 'react-router-dom'
 
 import { Loader } from '../cmps/Loader'
 import { ToyImg } from '../cmps/ToyImg'
+import { ToyReview } from '../cmps/ToyReview.jsx'
 
 import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service'
 import { toyService } from '../services/toy.service.js'
+import { loadReviews, addReview, removeReview} from '../store/actions/review.actions'
+
 
 export function ToyDetails() {
   const user = useSelector(storeState => storeState.userModule.loggedInUser)
+  const reviews = useSelector(storeState => storeState.reviewModule.reviews)
 
   const [toy, setToy] = useState(null)
   const [msg, setMsg] = useState({ txt: '' })
+  const [review, setReview] = useState({ txt: '' })
 
   const { toyId } = useParams()
   const navigate = useNavigate()
 
   useEffect(() => {
     loadToy()
+    loadReviews({aboutToyId: toyId})
   }, [toyId])
 
   function handleMsgChange(ev) {
@@ -26,6 +32,12 @@ export function ToyDetails() {
     const value = ev.target.value
     setMsg(msg => ({ ...msg, [field]: value }))
   }
+
+    function handleReviewChange({ target }) {
+    const { name: field, value } = target
+    setReview(review => ({ ...review, [field]: value }))
+  }
+
 
   async function loadToy() {
     try {
@@ -66,10 +78,37 @@ export function ToyDetails() {
     }
   }
 
+    async function onSaveReview(ev) {
+    ev.preventDefault()
+    const savedReview = {
+      txt: review.txt,
+      aboutToyId: toy._id,
+    }
+    try {
+      addReview(savedReview)
+      showSuccessMsg('Review saved!')
+    } catch (err) {
+      console.log('error saving the review :', err)
+    }
+  }
+
+
+  async function onRemoveReview(reviewId) {
+    try {
+      removeReview(reviewId)
+      showSuccessMsg('Review removed!')
+    } catch (err) {
+      console.log('problem with removing review', err)
+    }
+  }
+
+
   const { txt } = msg
 
   if (!toy) return <Loader />
 
+
+  console.log(reviews)
   return (
     <section className="toy-details" style={{ textAlign: 'center' }}>
       <div className="upper-section flex flex-column align-center">
@@ -120,6 +159,18 @@ export function ToyDetails() {
           </div>
         </div>
       )}
+
+        {user && (
+        <ToyReview
+          toy={toy}
+          review={review}
+          reviews={reviews}
+          handleChange={handleReviewChange}
+          onSaveReview={onSaveReview}
+          onRemoveReview={onRemoveReview}
+        />
+      )}
+
     </section>
   )
 }

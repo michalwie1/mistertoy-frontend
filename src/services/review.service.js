@@ -1,6 +1,8 @@
-import { httpService } from '../services/http.service.js'
+import { httpService } from './http.service.js'
+
 
 const BASE_URL = 'review/'
+
 
 export const reviewService = {
   add,
@@ -8,13 +10,16 @@ export const reviewService = {
   remove,
 }
 
+
 function query(filterBy = {}) {
   return httpService.get(BASE_URL, filterBy)
 }
 
+
 async function remove(reviewId) {
   await httpService.delete(BASE_URL + reviewId)
 }
+
 
 async function add({ txt, aboutToyId }) {
   return await httpService.post(BASE_URL, { txt, aboutToyId })
