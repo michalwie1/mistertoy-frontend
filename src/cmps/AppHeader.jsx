@@ -31,12 +31,6 @@ export function AppHeader() {
     }
 
 
-
-    function onToggleCart(ev) {
-        ev.preventDefault()
-        dispatch({ type: TOGGLE_CART_IS_SHOWN })
-    }
-
     return (
         <header className="app-header full main-layout">
             <section className="header-container">
@@ -47,8 +41,10 @@ export function AppHeader() {
                     <NavLink to="/toy" >Toys</NavLink>
                     <NavLink to="/review" >Reviews</NavLink>
                     <NavLink to="/dashboard" >Dashboard</NavLink>
-                    <NavLink to="/login" >Login</NavLink>
-                    {/* <a onClick={onToggleCart} href="#">🛒 Cart</a> */}
+                    {user 
+                    ? <NavLink to="/user" >User</NavLink>
+                    : <NavLink to="/login" >Login</NavLink>
+                    }
 
                 </nav>
             </section>

@@ -1,9 +1,7 @@
 import { useEffect, useState } from "react"
+import {  useSelector } from 'react-redux'
 import { userService } from "../services/user.service.js"
 import { Link, useNavigate, useParams } from "react-router-dom"
-
-// const { useEffect, useState } = React
-// const { Link, useParams, useNavigate } = ReactRouterDOM
 
 
 export function UserDetails() {
@@ -27,12 +25,13 @@ export function UserDetails() {
             })
     }
 
-
-    if (!user) return <div>Loading...</div>
+    if (!user) navigate('/')
+    // if (!user) return <div>Loading...</div>
 
     const loggedInUser = userService.getLoggedinUser()
     const isMyProfile = loggedInUser._id === userId
     return (
+        
         <section className="user-details">
             <h1>Fullname: {user.fullname}</h1>
             {isMyProfile && (
