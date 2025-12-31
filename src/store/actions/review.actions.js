@@ -17,6 +17,7 @@ export async function loadReviews(filterBy = {}) {
 }
 
 export async function addReview(review) {
+	console.log(review)
   try {
     const addedReview = await reviewService.add(review)
     store.dispatch(getActionAddReview(addedReview))

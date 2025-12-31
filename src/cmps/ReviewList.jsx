@@ -16,6 +16,7 @@ export function ReviewList({ reviews, onRemoveReview }) {
 
 
     return <section>
+        <h2>My Reviews:</h2>
         <ul className="review-list">
             {reviews.map(review =>
                 <li key={review._id}>

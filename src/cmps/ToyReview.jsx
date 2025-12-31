@@ -1,5 +1,6 @@
 export function ToyReview({
-  toy,
+  // toy = null,
+  // user = null,
   review,
   reviews,
   handleChange,
@@ -9,9 +10,11 @@ export function ToyReview({
   const { txt } = review
 
 
+
   return (
     <div className="review-container">
-      <h1>Toy reviews:</h1>
+      {/* {toy && <h1>Toy reviews:</h1>} */}
+      {/* {user && <h1>User reviews:</h1>} */}
       <form className="login-form" onSubmit={onSaveReview}>
         <input
           type="text"

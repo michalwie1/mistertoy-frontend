@@ -162,7 +162,7 @@ export function ToyDetails() {
 
         {user && (
         <ToyReview
-          toy={toy}
+          // toy={toy}
           review={review}
           reviews={reviews}
           handleChange={handleReviewChange}
