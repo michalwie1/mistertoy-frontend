@@ -3,6 +3,7 @@ import {BrowserRouter as Router, Route, Routes} from 'react-router-dom'
 
 import { AppHeader } from './cmps/AppHeader.jsx'
 import { AppFooter } from './cmps/AppFooter.jsx'
+import { ChatRoom } from './cmps/ChatRoom.jsx'
 
 import { HomePage } from './pages/HomePage.jsx'
 import { AboutUs } from './pages/AboutUs.jsx'
@@ -15,6 +16,7 @@ import { UserDetails } from './pages/UserDetails.jsx'
 import { Provider } from 'react-redux'
 import { Dashboard } from './pages/Dashboard.jsx'
 import { Login } from './pages/Login.jsx'
+
 
 
 function App() {
@@ -35,6 +37,7 @@ function App() {
                             <Route element={<ToyEdit />} path="/toy/edit/:toyId" />
                             <Route element={<ToyDetails />} path="/toy/:toyId" />
                             <Route element={<ToyReviews />} path="/review" />
+                            <Route element={<ChatRoom />} path="chat" />
                             <Route element={<UserDetails />} path="/user" />
                         </Routes>
                     </main>

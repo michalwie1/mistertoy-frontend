@@ -44,6 +44,7 @@ export function AppHeader() {
                     <NavLink to="/toy" >Toys</NavLink>
                     <NavLink to="/review" >Reviews</NavLink>
                     <NavLink to="/dashboard" >Dashboard</NavLink>
+
                     {user 
                     ? <NavLink to="/user" >User</NavLink>
                     : <NavLink to="/login" >Login</NavLink>

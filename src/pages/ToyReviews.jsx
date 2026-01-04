@@ -6,7 +6,6 @@ import { loadUsers } from '../store/actions/user.actions.js'
 
 
 import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service.js'
-import { socketService, SOCKET_EVENT_REVIEW_ADDED, SOCKET_EVENT_REVIEW_REMOVED } from '../services/socket.service.js'
 import { ReviewList } from '../cmps/ReviewList.jsx'
 // import { ReviewEdit } from '../cmps/ReviewEdit'
 
@@ -22,24 +21,6 @@ export function ToyReviews() {
 	useEffect(() => {
 		loadReviews()
 		loadUsers()
-
-
-		socketService.on(SOCKET_EVENT_REVIEW_ADDED, review => {
-			console.log('GOT from socket', review)
-			dispatch(getActionAddReview(review))
-		})
-
-
-		socketService.on(SOCKET_EVENT_REVIEW_REMOVED, reviewId => {
-			console.log('GOT from socket', reviewId)
-			dispatch(getActionRemoveReview(reviewId))
-		})
-
-
-		return () => {
-            socketService.off(SOCKET_EVENT_REVIEW_ADDED)
-            socketService.off(SOCKET_EVENT_REVIEW_REMOVED)
-        }
 	}, [])
 
 

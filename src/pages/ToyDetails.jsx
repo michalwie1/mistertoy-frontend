@@ -9,6 +9,7 @@ import { ToyReview } from '../cmps/ToyReview.jsx'
 import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service'
 import { toyService } from '../services/toy.service.js'
 import { loadReviews, addReview, removeReview} from '../store/actions/review.actions'
+import { ChatRoom } from '../cmps/ChatRoom.jsx'
 
 
 export function ToyDetails() {
@@ -129,7 +130,7 @@ export function ToyDetails() {
           <Link to="/toy">Back</Link>
         </button>
       </div>
-      {user && (
+      {/* {user && (
         <div className="msg-container">
           <h2>Chat</h2>
           <form className="login-form" onSubmit={onSaveMsg}>
@@ -158,7 +159,7 @@ export function ToyDetails() {
             </ul>
           </div>
         </div>
-      )}
+      )} */}
 
         {user && (
         <ToyReview
@@ -170,7 +171,7 @@ export function ToyDetails() {
           onRemoveReview={onRemoveReview}
         />
       )}
-
+      <ChatRoom toy={toy}/>
     </section>
   )
 }

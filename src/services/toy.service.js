@@ -13,6 +13,7 @@ export const toyService = {
   getLabelCounts,
   addMsg,
   removeMsg,
+  // addToyMsg
 }
 
 const labels = [
@@ -52,6 +53,10 @@ async function addMsg(toyId, msg) {
 async function removeMsg(toyId, msgId) {
   return httpService.delete(BASE_URL + `${toyId}/msg/${msgId}`)
 }
+
+// async function addToyMsg(toyId, txt) {
+//   return httpService.put(BASE_URL + `${toyId}/msg/${txt}`)
+// }
 
 function getDefaultFilter() {
   return {
