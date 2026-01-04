@@ -1,3 +1,5 @@
+import { userService } from '../services/user.service.js'
+
 export function ToyReview({
   // toy = null,
   // user = null,
@@ -9,7 +11,7 @@ export function ToyReview({
 }) {
   const { txt } = review
 
-
+  const user = userService.getLoggedinUser()
 
   return (
     <div className="review-container">
@@ -34,12 +36,12 @@ export function ToyReview({
               <li key={review._id}>
                 By: {review.byUser ? review.byUser.fullname : 'Unknown User'} -{' '}
                 {review.txt}
-                <button
+                {user.isAdmin && <button
                   type="button"
                   onClick={() => onRemoveReview(review._id)}
                 >
                   ✖️
-                </button>
+                </button>}
               </li>
             ))}
         </ul>

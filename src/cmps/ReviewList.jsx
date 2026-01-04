@@ -9,8 +9,11 @@ export function ReviewList({ reviews, onRemoveReview }) {
     function shouldShowActionBtns(review) {
         const user = userService.getLoggedinUser()
         
+        console.log('user to check', user)
+
         if (!user) return false
         if (user.isAdmin) return true
+        if (!user.isAdmin) return false
         return review.byUser?._id === user._id
     }
 
