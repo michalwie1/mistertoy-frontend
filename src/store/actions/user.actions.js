@@ -41,7 +41,7 @@ export async function logout(credentials) {
     }
     }
 
-    export async function loadUsers() {
+export async function loadUsers() {
     try {
         store.dispatch({ type: SET_IS_LOADING, isLoading: true })
         const users = await userService.getUsers()
@@ -51,6 +51,7 @@ export async function logout(credentials) {
     } finally {
         store.dispatch({ type: SET_IS_LOADING, isLoading: false })
     }
-    }
+}
+
 
 

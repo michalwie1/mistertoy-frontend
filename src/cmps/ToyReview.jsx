@@ -36,11 +36,11 @@ export function ToyReview({
               <li key={review._id}>
                 By: {review.byUser ? review.byUser.fullname : 'Unknown User'} -{' '}
                 {review.txt}
-                {user.isAdmin && <button
+                {user._id === review.byUser._id && <button
                   type="button"
                   onClick={() => onRemoveReview(review._id)}
                 >
-                  ✖️
+                  X
                 </button>}
               </li>
             ))}

@@ -48,6 +48,10 @@ function createSocketService() {
 		terminate() {
 			socket = null
 		},
+
+		watchUser(userId) {
+			socket.emit(SOCKET_EMIT_USER_WATCH, userId)
+		},		
 	}
 	return socketService
 }
@@ -93,8 +97,13 @@ function createDummySocketService() {
 			this.emit(SOCKET_EVENT_ADD_MSG, { from: 'Someone', txt: 'Aha it worked!' })
 		},
 		testUserUpdate() {
-			this.emit(SOCKET_EVENT_USER_UPDATED, { ...userService.getLoggedinUser(), score: 555 })
+			this.emit(SOCKET_EVENT_USER_UPDATED, { ...userService.getLoggedinUser() })
 		},
+
+		watchUser(userId) {
+			socket.emit(SOCKET_EMIT_USER_WATCH, userId)
+		},
+
 	}
 	window.listenersMap = listenersMap
 	return socketService

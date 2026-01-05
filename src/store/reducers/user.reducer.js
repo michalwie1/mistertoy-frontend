@@ -8,6 +8,7 @@ export const CHANGE_BY = 'CHANGE_BY'
 
 //* User
 export const SET_USER = 'SET_USER'
+export const SET_WATCHED_USER = 'SET_WATCHED_USER'
 
 
 const initialState = {
@@ -16,6 +17,7 @@ const initialState = {
 }
 
 export function userReducer(state = initialState, action = {}) {
+    var newState = state
     switch (action.type) {
         //* User
         case SET_USER:
@@ -23,6 +25,8 @@ export function userReducer(state = initialState, action = {}) {
                 ...state,
                 loggedInUser: action.user
             }
+        case SET_WATCHED_USER:
+            newState = { ...state, watchedUser: action.user }
         default:
             return state;
     }

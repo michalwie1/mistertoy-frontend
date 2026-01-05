@@ -19,7 +19,7 @@ import { Login } from './pages/Login.jsx'
 
 
 
-function App() {
+function RootCmp() {
 
   return (
         <Provider store={store}>
@@ -31,14 +31,14 @@ function App() {
                             <Route element={<HomePage />} path="/" />
                             <Route element={<AboutUs />} path="/about" />
                             <Route element={<Dashboard />} path="/dashboard" />
-                            <Route element={<Login />} path="/Login" />
+                            <Route element={<Login />} path="/login" />
                             <Route element={<ToyIndex />} path="/toy" />
                             <Route element={<ToyEdit />} path="/toy/edit" />
                             <Route element={<ToyEdit />} path="/toy/edit/:toyId" />
                             <Route element={<ToyDetails />} path="/toy/:toyId" />
                             <Route element={<ToyReviews />} path="/review" />
-                            <Route element={<ChatRoom />} path="chat" />
-                            <Route element={<UserDetails />} path="/user" />
+                            <Route element={<ChatRoom />} path="/chat" />
+                            <Route element={<UserDetails />} path="/user/:id" />
                         </Routes>
                     </main>
                     <AppFooter />
@@ -48,4 +48,4 @@ function App() {
   )
 }
 
-export default App
+export default RootCmp
